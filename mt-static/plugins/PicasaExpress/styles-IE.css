@@ -1,0 +1,11 @@
+/* These are unchanged from WP plugin */
+#pe2-main table {
+	margin:2px 0px;
+}
+*:first-child+html #pe2-main div.numbers {
+	width: 67px;
+}
+#pe2-main div.numbers {
+	filter: alpha(opacity=50);
+	filter: glow(color=#ffffff, strength=3);
+}

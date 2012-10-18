@@ -1,0 +1,84 @@
+#pwa_content {
+  height:375px;
+  overflow: auto;
+  background:white;
+}
+#pwa_debug table { padding:5px;border:0; }
+#pwa_debug table td { padding:0 5px; }
+#pwa-message2,#pwa-message3 {
+	padding:4px 10px;
+	font-weight: bold;
+}
+a.button {
+  line-height: 15px;
+  padding: 3px 10px;
+  white-space: nowrap;
+  text-shadow: 0 1px 0 rgb(255, 255, 255);
+  border-radius: 11px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: rgb(187, 187, 187);
+  background: rgb(242,242,242);
+}
+.alignleft {
+  float:left;
+}
+.alignright {
+  float:right;
+}
+.pwa-space {
+	margin-left:10px;
+}
+.pwa-header {
+	padding: 6px;
+	background:#eaf2fa;
+	width:623px;
+	top:0;
+	left:0;
+}
+#pwa-main table {
+	border:0;
+	margin:2px 6px;
+	text-align:center;
+}
+#pwa-main td {
+	vertical-align:top;
+	cursor:pointer;
+	border: 1px solid white;
+}
+#pwa-main table a {
+	text-decoration:none;
+}
+#pwa-main td:hover {
+	background:#f1f1f1;
+}
+
+#pwa-main td.selected {
+	background:#eee;
+	border: 1px solid #d54e21;
+}
+#pwa-main a img,#pwa-main a span {
+	padding:5px;
+	display:block;
+	text-align:center;
+	width:144px;
+	font-size:10px;
+	line-height:10px;
+}
+#pwa-main div.numbers {
+	position:absolute;
+	top:1; left:1;
+	width: 144px;
+	height: 144px;
+	z-index:100;
+	opacity:0.9;
+	font-size:40px;
+	color:black;
+  text-shadow:
+   -1px -1px 0 white,
+    1px -1px 0 white,
+    -1px 1px 0 white,
+     1px 1px 0 white;
+	text-align:right;
+	padding:10px 0;
+}

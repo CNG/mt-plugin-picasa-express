@@ -1,0 +1,253 @@
+<div id="fieldsets">
+  <div id="picasa_web_albums_display_properties" class="fieldset-options">
+    <h3 id="pwa_root_anchor"><__trans phrase='Picasa Web Albums display properties'></h3>
+    <mt:Ignore>
+      Following IFs are supposed to cause plugin settings to automatically be open upon returning
+      from either revoking or authorizing with Picasa. It does not seem to work on my 5.13 install
+      due to a JS error on the page unrelated to this plugin. Might look into it later...
+    </mt:Ignore>
+    <$mt:Var name="open_pwa_settings" value=""$>
+    <mt:If name="request.pwa_revoke"><$mt:Var name="open_pwa_settings" value="1"$></mt:If>
+    <mt:If name="request.pwa_auth"><$mt:Var name="open_pwa_settings" value="1"$></mt:If>
+    <mt:If name="open_pwa_settings">
+      <script type="text/javascript">
+        jQuery(document).ready(function(){
+          var plugin_id = jQuery("#pwa_root_anchor").parents(".plugin").attr("id").match(/plugin-[0-9]+/)[0].replace('plugin-','');
+          <mt:If tag="Version" like="^5">
+            function togglePlugin() {
+              jQuery('.plugin').not(jQuery("#plugin-"+plugin_id).parents('.plugin')).removeClass('plugin-expanded');
+              jQuery("#plugin-"+plugin_id).parents('.plugin').toggleClass('plugin-expanded');
+              return false;
+            }
+          </mt:If>
+          togglePlugin(plugin_id);
+          jQuery("#plugin-"+plugin_id+" #plugin-info-"+plugin_id).addClass('hidden');
+          jQuery("#plugin-"+plugin_id+" #config-"+plugin_id).removeClass('hidden');
+        });
+      </script>
+    </mt:If>
+    <input type="hidden" name="pwa_saved_state" value="<$mt:var name='pwa_saved_state' escape='html'$>" />
+    <input type="hidden" name="pwa_last_album" value="<$mt:var name='pwa_last_album' escape='html'$>" />
+    <mtapp:setting id="pwa_token" label="Token" required="0" show_hint="0" show_label="0">
+      <mt:PicasaIfAuthenticated>
+        <$mt:PicasaAuthButtons$>
+      <mt:Else>
+        <$mt:PicasaAuthButtons$><br />
+        <p><strong style="color:red;"><__trans phrase='IMPORTANT:'> </strong><__trans phrase='_REMEMBER_TO_AUTHENTICATE'></p>
+      </mt:PicasaIfAuthenticated>
+      <input type="hidden" name="pwa_token" id="pwa_token" style="width:200px;" value="<$mt:var name='pwa_token' escape='html'$>" />
+    </mtapp:setting>
+    <mtapp:setting id="image_sort_by" label="<__trans phrase='_image_sort_by_label'>">
+      <__trans phrase='Sort album images by'>
+      <input type="radio" name="image_sort_by" id="image_sort_by_date" value="date" <mt:If name="image_sort_by_date">checked="checked" </mt:If>/>
+      <strong><__trans phrase='date'></strong>
+      <input type="radio" name="image_sort_by" id="image_sort_by_title" value="title" <mt:If name="image_sort_by_title">checked="checked" </mt:If>/>
+      <strong><__trans phrase='title'></strong>
+      <input type="radio" name="image_sort_by" id="image_sort_by_filename" value="filename" <mt:If name="image_sort_by_filename">checked="checked" </mt:If>/>
+      <strong><__trans phrase='filename'></strong>
+      <input type="radio" name="image_sort_by" id="image_sort_by_none" value="none" <mt:If name="image_sort_by_none">checked="checked" </mt:If>/>
+      <strong><__trans phrase='nothing'></strong>
+    </mtapp:setting>
+    <mtapp:setting id="image_sort_order" label="<__trans phrase='_image_sort_order_label'>">
+      <__trans phrase='Show album images in'>
+      <input type="radio" name="image_sort_order" id="image_sort_order_ascending" value="ascending" <mt:If name="image_sort_order_ascending">checked="checked" </mt:If>/>
+      <strong><__trans phrase='ascending'></strong>
+      <input type="radio" name="image_sort_order" id="image_sort_order_descending" value="descending" <mt:If name="image_sort_order_descending">checked="checked" </mt:If>/>
+      <strong><__trans phrase='descending'></strong>
+      <__trans phrase='order'>
+    </mtapp:setting>
+    <mtapp:setting id="save_state" label="<__trans phrase='_save_state_label'>" show_label="0">
+      <input type="checkbox" name="save_state" id="save_state" value="1" <mt:If name="save_state">checked="checked" </mt:If>/>
+      <__trans phrase='_save_state_label'>
+    </mtapp:setting>
+  </div>
+  <div id="images" class="fieldset-options">
+    <h3><__trans phrase='Images'></h3>
+    <p><__trans phrase='_STRUCTURE_EXPLANATION'></p>
+<pre style="background:#ddd;margin:20px;padding:20px;width:560px;overflow:auto;">
+&lt;div class=&quot;<$mt:Var name='img_div_class' escape='html'$>&quot;<mt:If name="img_div_style"> style=&quot;<$mt:Var name='img_div_style' escape='html'$>&quot;</mt:If>&gt;
+  &lt;a href=&quot;largeimage.jpg&quot;&gt;
+    &lt;img src=&quot;thumb.jpg&quot; alt=&quot;<$mt:Var name='img_alt' escape='html'$>&quot; width=&quot;<$mt:Var name='img_thumb_width' escape='html'$>&quot; height=&quot;<$mt:Var name='img_thumb_height' escape='html'$>&quot;<mt:If name="img_style"> style=&quot;<$mt:Var name='img_style' escape='html'$>&quot;</mt:If> /&gt;
+  &lt;/a&gt;
+<mt:If name="img_caption">  &lt;p<mt:If name="img_caption_style"> style=&quot;<$mt:Var name='img_caption_style' escape='html'$>&quot;</mt:If>&gt;<__trans phrase='This is a caption'>&lt;/p&gt;
+</mt:If>&lt;/div&gt;</pre>
+    <mtapp:setting id="img_div_class" label="<__trans phrase='_img_div_class_label'>" hint="<__trans phrase='_img_div_class_hint'>" show_hint="1">
+      <input type="text" name="img_div_class" id="img_div_class" style="width:400px;" value="<$mt:Var name='img_div_class' escape='html'$>" />
+    </mtapp:setting>
+    <mtapp:setting id="img_div_style" label="<__trans phrase='_img_div_style_label'>" hint="<__trans phrase='_img_div_style_hint'>" show_hint="1">
+      <input type="text" name="img_div_style" id="img_div_style" style="width:400px;" value="<$mt:Var name='img_div_style' escape='html'$>" />
+    </mtapp:setting>
+    <mtapp:setting id="img_thumb" label="<__trans phrase='_img_thumb_label'>" hint="<__trans phrase='_img_thumb_hint'> <__trans phrase='_GOOGLE_THUMB_NOTE'>" show_hint="1">
+      <p><input type="checkbox" name="img_thumb_crop" id="img_thumb_crop" value="1" <mt:If name="img_thumb_crop">checked="checked" </mt:If>/>
+      <__trans phrase='Crop from center to create square thumbnail, regardless of original aspect ratio'></p>
+      <p id="img_thumb_crop_on"<mt:Unless name="img_thumb_crop"> style="display:none;"</mt:Unless>><__trans phrase='Set cropped thumbnail <strong>width</strong> and <strong>height</strong> to'>
+      <input type="text" name="img_thumb_crop_size" id="img_thumb_crop_size" style="width:40px;" value="<$mt:Var name='img_thumb_crop_size' escape='html'$>" />
+      <__trans phrase='pixels'></p>
+      <p id="img_thumb_crop_off"<mt:If name="img_thumb_crop"> style="display:none;"</mt:If>><__trans phrase='Limit thumbnail <strong>width</strong> to'>
+      <input type="text" name="img_thumb_width" id="img_thumb_width" style="width:40px;" value="<$mt:Var name='img_thumb_width' escape='html'$>" />
+      <__trans phrase='pixels and <strong>height</strong> to'>
+      <input type="text" name="img_thumb_height" id="img_thumb_height" style="width:40px;" value="<$mt:Var name='img_thumb_height' escape='html'$>" />
+      <__trans phrase='pixels'></p>
+    </mtapp:setting>
+    <mtapp:setting id="img_alt" label="<__trans phrase='_img_alt_label'>" hint="<__trans phrase='_img_alt_hint'>" show_hint="1">
+      <__trans phrase='Populate image alt attribute with'>
+      <input type="radio" name="img_alt" id="img_alt_caption" value="caption" <mt:If name="img_alt_caption">checked="checked" </mt:If>/>
+      <strong><__trans phrase='caption'></strong>
+      <input type="radio" name="img_alt" id="img_alt_filename" value="filename" <mt:If name="img_alt_filename">checked="checked" </mt:If>/>
+      <strong><__trans phrase='filename'></strong>
+      <input type="radio" name="img_alt" id="img_alt_none" value="none" <mt:If name="img_alt_none">checked="checked" </mt:If>/>
+      <strong><__trans phrase='nothing'></strong>
+    </mtapp:setting>
+    <mtapp:setting id="img_title" label="<__trans phrase='_img_title_label'>" hint="<__trans phrase='_img_title_hint'>" show_hint="1">
+      <__trans phrase='Populate image title attribute with'>
+      <input type="radio" name="img_title" id="img_title_caption" value="caption" <mt:If name="img_title_caption">checked="checked" </mt:If>/>
+      <strong><__trans phrase='caption'></strong>
+      <input type="radio" name="img_title" id="img_title_filename" value="filename" <mt:If name="img_title_filename">checked="checked" </mt:If>/>
+      <strong><__trans phrase='filename'></strong>
+      <input type="radio" name="img_title" id="img_title_none" value="none" <mt:If name="img_title_none">checked="checked" </mt:If>/>
+      <strong><__trans phrase='nothing'></strong>
+    </mtapp:setting>
+    <mtapp:setting id="img_align" label="<__trans phrase='_img_align_label'>" hint="<__trans phrase='_img_align_hint'>" show_hint="1">
+      <input type="radio" name="img_align" id="img_align_none" value="none" <mt:If name="img_align_none">checked="checked" </mt:If>/>
+      <strong><__trans phrase='None'></strong>
+      <input type="radio" name="img_align" id="img_align_left" value="left" <mt:If name="img_align_left">checked="checked" </mt:If>/>
+      <strong><__trans phrase='Left'></strong>
+      <input type="radio" name="img_align" id="img_align_right" value="right" <mt:If name="img_align_right">checked="checked" </mt:If>/>
+      <strong><__trans phrase='Right'></strong>
+    </mtapp:setting>
+    <mtapp:setting id="img_style" label="<__trans phrase='_img_style_label'>" hint="<__trans phrase='_img_style_hint'>" show_hint="1">
+      <input type="text" name="img_style" id="img_style" style="width:400px;" value="<$mt:Var name='img_style' escape='html'$>" />
+    </mtapp:setting>
+
+    <mtapp:setting id="img_caption" label="<__trans phrase='_img_caption_label'>" show_label="0">
+      <input type="checkbox" name="img_caption" id="img_caption" value="1" <mt:If name="img_caption">checked="checked" </mt:If>/>
+      <__trans phrase='_img_caption_label'>
+    </mtapp:setting>
+    <mtapp:setting id="img_caption_align" label="<__trans phrase='_img_caption_align_label'>" hint="<__trans phrase='_img_caption_align_hint'>" show_hint="1">
+      <input type="radio" name="img_caption_align" id="img_caption_align_none" value="none" <mt:If name="img_caption_align_none">checked="checked" </mt:If>/>
+      <strong><__trans phrase='None'></strong>
+      <input type="radio" name="img_caption_align" id="img_caption_align_left" value="left" <mt:If name="img_caption_align_left">checked="checked" </mt:If>/>
+      <strong><__trans phrase='Left'></strong>
+      <input type="radio" name="img_caption_align" id="img_caption_align_center" value="center" <mt:If name="img_caption_align_center">checked="checked" </mt:If>/>
+      <strong><__trans phrase='Center'></strong>
+      <input type="radio" name="img_caption_align" id="img_caption_align_right" value="right" <mt:If name="img_caption_align_right">checked="checked" </mt:If>/>
+      <strong><__trans phrase='Right'></strong>
+    </mtapp:setting>
+    <mtapp:setting id="img_caption_style" label="<__trans phrase='_img_caption_style_label'>" hint="<__trans phrase='_img_caption_style_hint'>" show_hint="1">
+      <input type="text" name="img_caption_style" id="img_caption_style" style="width:400px;" value="<$mt:Var name='img_caption_style' escape='html'$>" />
+    </mtapp:setting>
+    <mtapp:setting id="img_link" label="<__trans phrase='_img_link_label'>" hint="<__trans phrase='_img_link_hint'>" show_hint="1">
+      <input type="radio" name="img_link" id="img_link_lightbox" value="lightbox" <mt:If name="img_link_lightbox">checked="checked" </mt:If>/>
+      <strong><__trans phrase='Lightbox'></strong><br />
+      <input type="radio" name="img_link" id="img_link_thickbox" value="thickbox" <mt:If name="img_link_thickbox">checked="checked" </mt:If>/>
+      <strong><__trans phrase='Thickbox'></strong><br />
+      <input type="radio" name="img_link" id="img_link_highslide" value="highslide" <mt:If name="img_link_highslide">checked="checked" </mt:If>/>
+      <strong><__trans phrase='Highslide'></strong><br />
+      <input type="radio" name="img_link" id="img_link_direct" value="direct" <mt:If name="img_link_direct">checked="checked" </mt:If>/>
+      <strong><__trans phrase='Direct link'></strong><br />
+      <input type="radio" name="img_link" id="img_link_album" value="album" <mt:If name="img_link_album">checked="checked" </mt:If>/>
+      <strong><__trans phrase='Link to Picasa Web Album'></strong><br />
+      <input type="radio" name="img_link" id="img_link_none" value="none" <mt:If name="img_link_none">checked="checked" </mt:If>/>
+      <strong><__trans phrase='No link'></strong>
+    </mtapp:setting>
+    <mtapp:setting id="img_large" label="<__trans phrase='_img_large_label'>" hint="<__trans phrase='_img_large_hint'> <__trans phrase='_GOOGLE_THUMB_NOTE'>" show_hint="1">
+      <p><input type="checkbox" name="img_large_crop" id="img_large_crop" value="1" <mt:If name="img_large_crop">checked="checked" </mt:If>/>
+      <__trans phrase='Crop from center to create square large image, regardless of original aspect ratio'></p>
+      <p id="img_large_crop_on"<mt:Unless name="img_large_crop"> style="display:none;"</mt:Unless>><__trans phrase='Set cropped large image <strong>width</strong> and <strong>height</strong> to'>
+      <input type="text" name="img_large_crop_size" id="img_large_crop_size" style="width:40px;" value="<$mt:Var name='img_large_crop_size' escape='html'$>" />
+      <__trans phrase='pixels'></p>
+      <p id="img_large_crop_off"<mt:If name="img_large_crop"> style="display:none;"</mt:If>><__trans phrase='Limit large image <strong>width</strong> to'>
+      <input type="text" name="img_large_width" id="img_large_width" style="width:40px;" value="<$mt:Var name='img_large_width' escape='html'$>" />
+      <__trans phrase='pixels and <strong>height</strong> to'>
+      <input type="text" name="img_large_height" id="img_large_height" style="width:40px;" value="<$mt:Var name='img_large_height' escape='html'$>" />
+      <__trans phrase='pixels'></p>
+    </mtapp:setting>
+  </div>
+  <div id="galleries" class="fieldset-options">
+    <h3><__trans phrase='Galleries'></h3>
+    <mtapp:setting id="gal_order" label="<__trans phrase='_gal_order_label'>" show_label="0" hint="<__trans phrase='_gal_order_hint'>" show_hint="0">
+      <input type="checkbox" name="gal_order" id="gal_order" value="1" <mt:If name="gal_order">checked="checked" </mt:If>/>
+      <__trans phrase='_gal_order_hint'>
+    </mtapp:setting>
+    <mtapp:setting id="gal_container" label="<__trans phrase='_gal_container_label'>" show_label="0" hint="<__trans phrase='_gal_container_hint'>" show_hint="1">
+      <input type="checkbox" name="gal_container" id="gal_container" value="1" <mt:If name="gal_container">checked="checked" </mt:If>/>
+      <__trans phrase='Surround images with a single gallery DIV tag'>
+    </mtapp:setting>
+    <mtapp:setting id="gal_align" label="<__trans phrase='_gal_align_label'>" hint="<__trans phrase='_gal_align_hint'>" show_hint="1">
+      <input type="radio" name="gal_align" id="gal_align_none" value="none" <mt:If name="gal_align_none">checked="checked" </mt:If>/>
+      <strong><__trans phrase='None'></strong>
+      <input type="radio" name="gal_align" id="gal_align_left" value="left" <mt:If name="gal_align_left">checked="checked" </mt:If>/>
+      <strong><__trans phrase='Left'></strong>
+      <input type="radio" name="gal_align" id="gal_align_center" value="center" <mt:If name="gal_align_center">checked="checked" </mt:If>/>
+      <strong><__trans phrase='Center'></strong>
+      <input type="radio" name="gal_align" id="gal_align_right" value="right" <mt:If name="gal_align_right">checked="checked" </mt:If>/>
+      <strong><__trans phrase='Right'></strong>
+    </mtapp:setting>
+    <mtapp:setting id="gal_class" label="<__trans phrase='_gal_class_label'>" hint="<__trans phrase='_gal_class_hint'>" show_hint="1">
+      <input type="text" name="gal_class" id="gal_class" style="width:400px;" value="<$mt:Var name='gal_class' escape='html'$>" />
+    </mtapp:setting>
+    <mtapp:setting id="gal_style" label="<__trans phrase='_gal_style_label'>" hint="<__trans phrase='_gal_style_hint'>" show_hint="1">
+      <input type="text" name="gal_style" id="gal_style" style="width:400px;" value="<$mt:Var name='gal_style' escape='html'$>" />
+    </mtapp:setting>
+  </div>
+</div>
+<mt:PicasaUnlessAuthenticated>
+  <p><strong style="color:red;"><__trans phrase='REMEMBER:'> </strong><__trans phrase='_REMEMBER_TO_AUTHENTICATE_2'></p>
+</mt:PicasaUnlessAuthenticated>
+
+<script type="text/javascript">
+  jQuery(document).ready(function(){
+    (check_gallery_fields = function(){
+      if(jQuery("#gal_container").attr('checked')) {
+        jQuery("#gal_align-field, #gal_class-field, #gal_style-field").show();
+      } else {
+        jQuery("#gal_align-field, #gal_class-field, #gal_style-field").hide();
+      }
+    })();
+    (check_large_fields = function(){
+      if(jQuery("#img_link_none").attr('checked') || jQuery("#img_link_album").attr('checked')) {
+        jQuery("#img_large-field").hide();
+      } else {
+        jQuery("#img_large-field").show();
+      }
+    })();
+    (check_caption_fields = function(){
+      if(jQuery('#img_caption').attr('checked')) {
+        jQuery("#img_caption_style-field, #img_caption_align-field").show();
+      } else {
+        jQuery("#img_caption_style-field, #img_caption_align-field").hide();
+      }
+    })();
+    jQuery("input[name=img_link]").change(function(){
+      check_large_fields();
+    });
+    jQuery("#gal_container").change(function(){
+      check_gallery_fields();
+    });
+    jQuery("#img_caption").change(function(){
+      check_caption_fields();
+    });
+
+    jQuery("#img_thumb_crop_size, #img_thumb_width, #img_thumb_height, #img_large_crop_size, #img_large_width, #img_large_height").change(function(){
+      if(jQuery(this).val() > 2560) jQuery(this).val(2560);
+    });
+    jQuery("#img_thumb_crop").change(function(){
+      if(jQuery("#img_thumb_crop").attr('checked')) {
+        jQuery("#img_thumb_crop_on").show();
+        jQuery("#img_thumb_crop_off").hide();
+      } else {
+        jQuery("#img_thumb_crop_on").hide();
+        jQuery("#img_thumb_crop_off").show();
+      }
+    });
+    jQuery("#img_large_crop").change(function(){
+      if(jQuery("#img_large_crop").attr('checked')) {
+        jQuery("#img_large_crop_on").show();
+        jQuery("#img_large_crop_off").hide();
+      } else {
+        jQuery("#img_large_crop_on").hide();
+        jQuery("#img_large_crop_off").show();
+      }
+    });
+  });
+</script>

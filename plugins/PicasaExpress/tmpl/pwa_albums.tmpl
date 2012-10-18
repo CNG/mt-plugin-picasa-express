@@ -1,0 +1,78 @@
+<$mt:SetVar name="screen_type" value="dialog-screen insert-asset-dialog"$>
+<mt:SetVarBlock name="page_title"><__trans phrase="Add Picasa image or gallery"></mt:SetVarBlock>
+<mt:SetVarBlock name="html_head" append="1">
+  <mt:If tag="Version" like="^4">
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  </mt:If>
+  <script type="text/javascript">
+    mt_admin_url = '<$mt:AdminCGIPath$><$mt:AdminScript$>';
+    pwa_static_url = '<$mt:var name="static_uri"$>plugins/PicasaExpress/';
+  </script>
+  <link rel="stylesheet" href="<$mt:var name="static_uri"$>plugins/PicasaExpress/styles.css" media="screen" type="text/css"></link>
+  <link rel="stylesheet" href="<$mt:var name="static_uri"$>plugins/PicasaExpress/styles-IE.css" media="screen" type="text/css"></link>
+</mt:SetVarBlock>
+
+<mt:Include name="dialog/header.tmpl">
+
+<div id="pwa-albums" class="pwa-header">
+  <div id="pwa-message2" class="alignleft"><__trans phrase="Select an Album"></div>
+  <a href="#" class="pwa-reload button alignright" ></a>
+  <br style="clear:both;"/>
+</div>
+<div id="pwa-images" class="pwa-header">
+  <a id="pwa-album-name" href="#" class="button alignleft"><__trans phrase="Select an Album"></a>
+  <div id="pwa-message3" class="alignleft"><__trans phrase="Select images"></div>
+  <a id="pwa-switch" href="#" class="button alignleft"><__trans phrase="Image"></a>
+  <a href="#" class="pwa-reload button alignright" ></a>
+  <br style="clear:both;"/>
+</div>
+
+<div id="pwa_content">
+  <p style="padding:5px;margin:5px;background:#ffc;color:#555;font-size:9px;font-family:monospace;display:none;" id="pwa_debug"></p>
+  <div id="pwa-main"></div>
+  <script>
+    PWA = {<$mt:PicasaSettings$>};
+    PWA_l10n = {
+      waiting: '<__trans phrase="Please wait">',
+      image: '<__trans phrase="Image">',
+      gallery: '<__trans phrase="Gallery">',
+      reload: '<__trans phrase="Reload">',
+      options: '<__trans phrase="Options">',
+      album: '<__trans phrase="Album">'
+    };
+  </script>
+
+  <mt:If tag="Version" like="^4">
+    <script type="text/javascript" src="<$mt:var name="static_uri"$>plugins/PicasaExpress/scripts-mt-4.js"></script>
+  <mt:Else tag="Version" like="^5.1">
+    <script type="text/javascript" src="<$mt:var name="static_uri"$>plugins/PicasaExpress/scripts-mt-5.1.js"></script>
+  <mt:Else tag="Version" like="^5.2">
+    <script type="text/javascript" src="<$mt:var name="static_uri"$>plugins/PicasaExpress/scripts-mt-5.2.js"></script>
+  </mt:If>
+  <script type="text/javascript" src="<$mt:var name="static_uri"$>plugins/PicasaExpress/scripts-mt-all.js"></script>
+
+  <div class="actions-bar"<mt:Unless tag="Version" like="^4">style="position:absolute; bottom:0px; width:610px;"</mt:Unless>>
+    <div class="actions-bar-inner pkg actions">
+      <form action="" method="get" onsubmit="return false">
+        <button
+          value="<__trans phrase='Insert'>"
+          type="submit"
+          id="pwa_insert_button"
+          style="display:none;"
+          accesskey="i"
+          title="<__trans phrase='Insert'>"
+          class="continue action button primary primary-button"
+          ><__trans phrase='Insert'></button>
+        <button
+          onclick="pwa_set_dialog_size(pwa_orig_x,pwa_orig_y); parent.jQuery.fn.mtDialog.close(); return false"
+          type="submit"
+          accesskey="x"
+          class="cancel action button"
+          title="<__trans phrase='Cancel (x)'>"
+          ><__trans phrase='Cancel'></button>
+      </form>
+    </div>
+  </div>
+</div><!-- #pwa_content -->
+
+<mt:Include name="dialog/footer.tmpl">
