@@ -8,12 +8,7 @@ tinymce.create('tinymce.plugins.picasaexpress', {
             icon: 'https://votecharlie.com/mt/mt-static/plugins/PicasaExpress/toolbar-picasa-express.gif',
             onclick: function() {
                 var blogId = jQuery('#blog-id').val() || 0;
-                // Open window
-                ed.windowManager.open({
-      					    //url : '/test.htm',
-      					    url : ScriptURI + '?__mode=pwa_albums&blog_id=' + blogId + '&dialog_view=1',
-                    title: 'Picasa Express'
-                });
+                jQuery.fn.mtDialog.open(ScriptURI + '?__mode=pwa_albums&blog_id=' + blogId + '&dialog_view=1');
             }
         });
     },
