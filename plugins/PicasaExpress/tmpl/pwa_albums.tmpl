@@ -1,8 +1,218 @@
+<mt:If tag="Version" like="^6">
+
+
+
+
+
+
+
+
+<mt:SetVar name="screen_type" value="dialog-screen insert-asset-dialog">
+<mt:SetVarBlock name="page_title"><__trans phrase="Add Picasa image or gallery"></mt:SetVarBlock>
+
+<mt:setvarblock name="html_head" append="1">
+  <script type="text/javascript" src="<mt:var name="static_uri">js/dialog.js?v=<mt:var name="mt_version_id" escape="url">"></script>
+<mt:Ignore>
+  <script type="text/javascript">
+  /* <![CDATA[ */
+    function dialogClose() {
+      parent.jQuery.fn.mtDialog.close();
+      return;
+    }
+  /* ]]> */
+  </script>
+</mt:Ignore>
+  <script type="text/javascript">
+  /* <![CDATA[ */
+    function dialogClose(data) {
+        if (!data) {
+            parent.jQuery.fn.mtDialog.close();
+            return;
+        }
+        // user made a selection and clicked insert...
+        var f = document.forms['select_asset'];
+        var sel = dlg.panel.tableSelect.selected();
+        f['id'].value = sel[0].value;
+        f.submit();
+    }
+
+    function viewChange(ds, fn) {
+        checkOpened();
+        if (fn) fn(ds);
+    }
+
+    var tableSelect;
+    var dlg;
+    function init() {
+        // setup
+        // assign isModal variable which is declared in assetdetail.js:
+        isModal = getByID("list-assets-dialog");
+
+        dlg = new Dialog.Simple("list-assets");
+        var panel = new ListingPanel("asset");
+        dlg.panel = panel;
+
+        // hook into view updates so we can close any opened detail panel
+        var old_update = panel.datasource.onUpdate;
+        panel.datasource.onUpdate = function(ds) { viewChange(ds, old_update) };
+
+        panel.pager.setState({"d":"0","method":"GET","chronological":1,"limit":25,"offset":0,"rows":18,"listTotal":18,"return_args":"__mode=dialog_list_asset&amp;_type=asset&amp;blog_id=2"});
+        panel.parent = dlg;
+        dlg.open({}, dialogClose);
+    }
+  /* ]]> */
+  </script></mt:setvarblock>
+
+
+<mt:SetVarBlock name="html_head" append="1">
+  <script type="text/javascript">
+    mt_admin_url = '<$mt:AdminCGIPath$><$mt:AdminScript$>';
+    pwa_static_url = '<$mt:var name="static_uri"$>plugins/PicasaExpress/';
+  </script>
+  <link rel="stylesheet" href="<mt:var name="static_uri">plugins/PicasaExpress/styles.css" media="screen" type="text/css"></link>
+  <link rel="stylesheet" href="<mt:var name="static_uri">plugins/PicasaExpress/styles-IE.css" media="screen" type="text/css"></link>
+</mt:setvarblock>
+
+
+<mt:include name="dialog/header.tmpl">
+
+
+
+
+<div id="pwa-albums" class="pwa-header">
+  <div id="pwa-message2" class="alignleft"><__trans phrase="Select an Album"></div>
+  <a href="#" class="pwa-reload button alignright" ></a>
+  <br style="clear:both;"/>
+</div>
+<div id="pwa-images" class="pwa-header">
+  <a id="pwa-album-name" href="#" class="button alignleft"><__trans phrase="Select an Album"></a>
+  <div id="pwa-message3" class="alignleft"><__trans phrase="Select images"></div>
+  <a id="pwa-switch" href="#" class="button alignleft"><__trans phrase="Image"></a>
+  <a href="#" class="pwa-reload button alignright" ></a>
+  <br style="clear:both;"/>
+</div>
+
+<div id="pwa_content" style="height:100%;">
+  <p style="padding:5px;margin:5px;background:#ffc;color:#555;font-size:9px;font-family:monospace;display:none;" id="pwa_debug"></p>
+  <div id="pwa-main"></div>
+  <script>
+    PWA = {<$mt:PicasaSettings$>};
+    PWA_l10n = {
+      waiting: '<__trans phrase="Please wait">',
+      image: '<__trans phrase="Image">',
+      gallery: '<__trans phrase="Gallery">',
+      reload: '<__trans phrase="Reload">',
+      options: '<__trans phrase="Options">',
+      album: '<__trans phrase="Album">'
+    };
+  </script>
+
+<mt:Ignore>
+</mt:Ignore>
+  <script type="text/javascript" src="<$mt:var name="static_uri"$>plugins/PicasaExpress/scripts-mt-6.js"></script>
+  <script type="text/javascript" src="<$mt:var name="static_uri"$>plugins/PicasaExpress/scripts-mt-all.js"></script>
+
+  <div id="list-assets-dialog">
+
+    <div class="dialog actions-bar actions-bar-bottom">
+        <button
+           type="submit"
+           id="pwa_insert_button"
+           style="display:none;"
+           accesskey="s"
+           title="<__trans phrase="Insert (s)">"
+           class="action primary button close">
+           <__trans phrase="Insert"></button>
+        <button
+           type="submit"
+           conclick="closeDialog(); return false"
+           accesskey="x"
+           class="cancel action button mt-close-dialog"
+           title="<__trans phrase="Cancel (x)">">
+          <__trans phrase="Cancel"></button>
+    </div>
+
+  <!-- /List Assets Dialog --></div>
+
+</div><!-- #pwa_content -->
+
+<mt:setvarblock name="jq_js_include" append="1">
+    init();
+</mt:setvarblock>
+
+<mt:include name="dialog/footer.tmpl">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<mt:Else>
+
 <$mt:SetVar name="screen_type" value="dialog-screen insert-asset-dialog"$>
 <mt:SetVarBlock name="page_title"><__trans phrase="Add Picasa image or gallery"></mt:SetVarBlock>
 <mt:SetVarBlock name="html_head" append="1">
   <mt:If tag="Version" like="^4">
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
   </mt:If>
   <script type="text/javascript">
     mt_admin_url = '<$mt:AdminCGIPath$><$mt:AdminScript$>';
@@ -48,6 +258,8 @@
     <script type="text/javascript" src="<$mt:var name="static_uri"$>plugins/PicasaExpress/scripts-mt-5.1.js"></script>
   <mt:Else tag="Version" like="^5.2">
     <script type="text/javascript" src="<$mt:var name="static_uri"$>plugins/PicasaExpress/scripts-mt-5.2.js"></script>
+  <mt:Else tag="Version" like="^6">
+    <script type="text/javascript" src="<$mt:var name="static_uri"$>plugins/PicasaExpress/scripts-mt-6.js"></script>
   </mt:If>
   <script type="text/javascript" src="<$mt:var name="static_uri"$>plugins/PicasaExpress/scripts-mt-all.js"></script>
 
@@ -64,7 +276,7 @@
           class="continue action button primary primary-button"
           ><__trans phrase='Insert'></button>
         <button
-          onclick="pwa_set_dialog_size(pwa_orig_x,pwa_orig_y); parent.jQuery.fn.mtDialog.close(); return false"
+          onclick="pwa_set_dialog_size(pwa_orig_x,pwa_orig_y); closeDialog(); return false"
           type="submit"
           accesskey="x"
           class="cancel action button"
@@ -76,3 +288,9 @@
 </div><!-- #pwa_content -->
 
 <mt:Include name="dialog/footer.tmpl">
+
+
+
+</mt:If>
+
+

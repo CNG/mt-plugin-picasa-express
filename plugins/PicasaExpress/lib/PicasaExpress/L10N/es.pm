@@ -97,20 +97,20 @@ use vars qw( %Lexicon );
   'title' => q{título},
 
   # Strings from Plugin.pm
-  'Cannot get session token. HTTP response:' => q{No se puede conseguir token de sesión. Respuesta HTTP:},
-  'Cannot retrieve' => q{No se puede recuperar},
-  'Error retrieving feed:' => q{Error en recuperar feed:},
-  'Error revoking access' => q{Error en revocar acceso},
-  'Gallery RSS feed did not parse properly' => q{Feed RSS de galería no se parseó bien},
-  'Get access to private albums' => q{Obtener acceso a álbumes privados},
-  'Images RSS feed did not parse properly' => q{Feed RSS de imágenes no se parseó bien},
-  'Invalid action parameter value:' => q{Valor de parámetro acción invalido:},
-  'Missing parameter:' => q{Falta parámetro:},
-  'Must have value for configuration setting:' => q{Es imprescindible rellenar valor de configuración:},
-  'Must have value for parameter:' => q{Es imprescindible rellenar valor del parámetro:},
-  'Private album access obtained' => q{Acceso a álbum privado obtenido},
-  'Private album access revoked' => q{Acceso a álbum privado revocados},
-  'Revoke access to private albums' => q{Revocar acceso a álbumes privados}
+  'Cannot get session token. HTTP response:' => q{Cannot get session token. HTTP response:},
+  'Cannot retrieve' => q{Cannot retrieve},
+  'Error retrieving feed:' => q{Error retrieving feed:},
+  'Error revoking access' => q{Error revoking access},
+  'Gallery RSS feed did not parse properly' => q{Gallery RSS feed did not parse properly},
+  'Get access to private albums' => q{Get access to private albums},
+  'Images RSS feed did not parse properly' => q{Images RSS feed did not parse properly},
+  'Invalid action parameter value:' => q{Invalid action parameter value:},
+  'Missing parameter:' => q{Missing parameter:},
+  'Must have value for configuration setting:' => q{Must have value for configuration setting:},
+  'Must have value for parameter:' => q{Must have value for parameter:},
+  'Private album access obtained' => q{Private album access obtained},
+  'Private album access revoked' => q{Private album access revoked},
+  'Revoke access to private albums' => q{Revoke access to private albums}
 
 );
 

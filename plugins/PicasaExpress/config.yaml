@@ -1,113 +1,117 @@
 name: Picasa Express
 id: PicasaExpress
 key: PicasaExpress
-author_link: http://votecharlie.com/
+author_link: https://votecharlie.com/
 author_name: Charlie Gorichanaz
 description: <__trans phrase='_CONFIG_DESCRIPTION'><br /><br /><__trans phrase='_SPECIAL_THANKS'>
-version: 1.0
+version: 1.1
 doc_link:
 
 l10n_class: PicasaExpress::L10N
 
 tags:
-  function:
-    PicasaAuthButtons: $PicasaExpress::PicasaExpress::Plugin::tag_pwa_auth_buttons
-    PicasaSettings: $PicasaExpress::PicasaExpress::Plugin::tag_pwa_settings
-  block:
-    PicasaIfAuthenticated?: $PicasaExpress::PicasaExpress::Plugin::tag_pwa_if_authenticated
-    PicasaUnlessAuthenticated?: $PicasaExpress::PicasaExpress::Plugin::tag_pwa_unless_authenticated
+    function:
+        PicasaAuthButtons: $PicasaExpress::PicasaExpress::Plugin::tag_pwa_auth_buttons
+        PicasaSettings:    $PicasaExpress::PicasaExpress::Plugin::tag_pwa_settings
+    block:
+        PicasaIfAuthenticated?:     $PicasaExpress::PicasaExpress::Plugin::tag_pwa_if_authenticated
+        PicasaUnlessAuthenticated?: $PicasaExpress::PicasaExpress::Plugin::tag_pwa_unless_authenticated
 
 callbacks:
-  MT::App::CMS::template_source.archetype_editor: $PicasaExpress::PicasaExpress::Plugin::xfrm_archetype_editor
-  MT::App::CMS::template_source.edit_entry: $PicasaExpress::PicasaExpress::Plugin::xfrm_edit_entry
+    MT::App::CMS::template_source.archetype_editor: $PicasaExpress::PicasaExpress::Plugin::xfrm_archetype_editor
+    MT::App::CMS::template_source.edit_entry:       $PicasaExpress::PicasaExpress::Plugin::xfrm_edit_entry
 
 applications:
-  cms:
-    methods:
-      pwa_token_receiver: $PicasaExpress::PicasaExpress::Plugin::mode_pwa_token_receiver
-      pwa_albums: $PicasaExpress::PicasaExpress::Plugin::mode_pwa_albums
-      pwa_ajax: $PicasaExpress::PicasaExpress::Plugin::mode_pwa_ajax
+    cms:
+        methods:
+            pwa_token_receiver: $PicasaExpress::PicasaExpress::Plugin::mode_pwa_token_receiver
+            pwa_albums:         $PicasaExpress::PicasaExpress::Plugin::mode_pwa_albums
+            pwa_ajax:           $PicasaExpress::PicasaExpress::Plugin::mode_pwa_ajax
+
+editors:
+    tinymce:
+        extension: extension.tmpl
 
 blog_config_template: blog_config.tmpl
 
 settings:
-  pwa_token:
-    scope: blog
-  pwa_last_album:
-    scope: blog
-  pwa_saved_state:
-    default: albums
-    scope: blog
-  image_sort_by:
-    default: date
-    scope: blog
-  image_sort_order:
-    default: descending
-    scope: blog
-  save_state:
-    default: 1
-    scope: blog
-  img_caption:
-    default: 1
-    scope: blog
-  img_caption_align:
-    default: none
-    scope: blog
-  img_alt:
-    default: filename
-    scope: blog
-  img_title:
-    default: caption
-    scope: blog
-  img_link:
-    default: direct
-    scope: blog
-  img_style:
-    scope: blog
-  img_div_class:
-    default: pwa-express
-    scope: blog
-  img_div_style:
-    scope: blog
-  img_caption_style:
-    scope: blog
-  img_thumb_crop:
-    default: 0
-    scope: blog
-  img_thumb_crop_size:
-    default: 480
-    scope: blog
-  img_thumb_height:
-    default: 480
-    scope: blog
-  img_thumb_width:
-    default: 640
-    scope: blog
-  img_large_crop:
-    default: 0
-    scope: blog
-  img_large_crop_size:
-    default: 744
-    scope: blog
-  img_large_height:
-    default: 744
-    scope: blog
-  img_large_width:
-    default: 1000
-    scope: blog
-  img_align:
-    default: none
-    scope: blog
-  gal_order:
-    default: 1
-    scope: blog
-  gal_container:
-    default: 0
-    scope: blog
-  gal_align:
-    default: none
-    scope: blog
-  gal_class:
-    scope: blog
-  gal_style:
-    scope: blog
+    pwa_token:
+        scope: blog
+    pwa_last_album:
+        scope: blog
+    pwa_saved_state:
+        default: albums
+        scope: blog
+    image_sort_by:
+        default: date
+        scope: blog
+    image_sort_order:
+        default: descending
+        scope: blog
+    save_state:
+        default: 1
+        scope: blog
+    img_caption:
+        default: 1
+        scope: blog
+    img_caption_align:
+        default: none
+        scope: blog
+    img_alt:
+        default: filename
+        scope: blog
+    img_title:
+        default: caption
+        scope: blog
+    img_link:
+        default: direct
+        scope: blog
+    img_style:
+        scope: blog
+    img_div_class:
+        default: pwa-express
+        scope: blog
+    img_div_style:
+        scope: blog
+    img_caption_style:
+        scope: blog
+    img_thumb_crop:
+        default: 0
+        scope: blog
+    img_thumb_crop_size:
+        default: 480
+        scope: blog
+    img_thumb_height:
+        default: 480
+        scope: blog
+    img_thumb_width:
+        default: 640
+        scope: blog
+    img_large_crop:
+        default: 0
+        scope: blog
+    img_large_crop_size:
+        default: 744
+        scope: blog
+    img_large_height:
+        default: 744
+        scope: blog
+    img_large_width:
+        default: 1000
+        scope: blog
+    img_align:
+        default: none
+        scope: blog
+    gal_order:
+        default: 1
+        scope: blog
+    gal_container:
+        default: 0
+        scope: blog
+    gal_align:
+        default: none
+        scope: blog
+    gal_class:
+        scope: blog
+    gal_style:
+        scope: blog

@@ -1,0 +1,9 @@
+.mtSkin .mce_picasaexpress {
+  background-image: url(../toolbar-picasa-express.gif) !important;
+}
+.mtSkin .mce_picasaexpress:hover:active {
+  background-image: url(../toolbar-picasa-express-active.gif) !important;
+}
+.mtSkin .mce_picasaexpress:hover {
+  background-image: url(../toolbar-picasa-express-hover.gif) !important;
+}

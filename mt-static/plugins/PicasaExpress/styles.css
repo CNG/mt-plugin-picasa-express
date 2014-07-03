@@ -45,6 +45,7 @@ a.button {
 	vertical-align:top;
 	cursor:pointer;
 	border: 1px solid white;
+	border-radius: 10px;
 }
 #pwa-main table a {
 	text-decoration:none;
@@ -55,25 +56,41 @@ a.button {
 
 #pwa-main td.selected {
 	background:#eee;
-	border: 1px solid #d54e21;
+	border-radius: 10px;
+  -moz-box-shadow: inset 0 0 5px ##333;
+  -webkit-box-shadow: inset 0 0 5px #333;
+  box-shadow: inset 0 0 5px #333;
 }
-#pwa-main a img,#pwa-main a span {
+#pwa-main td.selected a img {
+	opacity:0.6;
+}
+#pwa-main td a img {
+	border-radius:10px;
+  border: 0.001em solid transparent;
+}
+#pwa-main a img, #pwa-main a span {
 	padding:5px;
 	display:block;
 	text-align:center;
 	width:144px;
+}
+#pwa-main a img {
+	padding:5px 5px 0 5px;
+}
+#pwa-main a span {
+	padding:2px 5px 5px 5px;
 	font-size:10px;
 	line-height:10px;
 }
 #pwa-main div.numbers {
-	position:absolute;
+	position:relative;
+  left:-20px;
+  float:right;
 	top:1; left:1;
-	width: 144px;
-	height: 144px;
 	z-index:100;
 	opacity:0.9;
 	font-size:40px;
-	color:black;
+	color:#111;
   text-shadow:
    -1px -1px 0 white,
     1px -1px 0 white,

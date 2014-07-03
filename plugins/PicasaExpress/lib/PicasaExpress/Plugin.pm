@@ -8,6 +8,7 @@ use MT 4;
 use URI::Escape;
 use LWP::UserAgent;
 use MIME::Base64 ();
+use utf8;
 
 
 ################################################################################
@@ -256,7 +257,7 @@ END_TMPL
 }
 
 sub xfrm_edit_entry {
-  if (MT->version_number >= 5.2) {
+  if (MT->version_number >= 5.2 && MT->version_number < 6) {
     my ($cb, $app, $src) = @_;
     my $slug = <<END_TMPL;
   <mt:PicasaIfAuthenticated>
@@ -349,7 +350,7 @@ sub mode_pwa_ajax {
     case 'get_gallery' {
       my $token = $config->{pwa_token} if defined $config->{pwa_token};
       return err( trans( "Must have value for configuration setting:" ) . ' token' ) unless defined $token;
-      my $url = 'http://picasaweb.google.com/data/feed/base/user/default?alt=rss&kind=album&hl=en_US';
+      my $url = 'https://picasaweb.google.com/data/feed/base/user/default?alt=rss&kind=album&hl=en_US';
       my $rss = get_feed($url, $blog_id, $token);
       use XML::Parser;
       use XML::Parser::Style::ETree;
@@ -401,6 +402,9 @@ sub mode_pwa_ajax {
       use XML::Parser::Style::ETree;
       my $parser = new XML::Parser(Style => 'ETree');
       my $tree = $parser->parse($rss);
+#use Encode;
+#$rss = decode('utf8', $rss);
+#return $rss;
       my $out = {};
       if (!$tree->{rss}->{channel}->{'atom:id'}) {
         $out->{error} = trans( "Images RSS feed did not parse properly" );
@@ -413,6 +417,8 @@ sub mode_pwa_ajax {
         if (defined $items) {
           if (ref($items) ne 'ARRAY') { $items = [ $items ]; }
           for my $item (@$items) {
+            # prevent videos from causing error later since they have arrays here
+            next unless ref($item->{'media:group'}->{'media:content'}) eq 'HASH';
             switch ($sort) {
               case 'none' { $key++; }
               case 'date' {
@@ -458,7 +464,8 @@ sub mode_pwa_ajax {
         $out->{data} = $output;
         $out->{cache} = $q->param('pwa_cache') if defined $q->param('pwa_cache');
         use JSON;
-        return encode_json($out);
+        #return encode_json($out);
+        return to_json($out);
       }
     } # end case 'get_images'
 
@@ -486,7 +493,8 @@ sub get_feed {
   );
   if (defined $res) {
     if ($res->is_success){
-      return $res->{_content};
+      return $res->decoded_content;
+      #return $res->{_content}; this started having issues with UTF8 characters after switching to Lightroom to upload to Picasa
     } else {
       log_message('error', trans( "Error retrieving feed:" ) . " " . $res->status_line, $blog_id);
     }
