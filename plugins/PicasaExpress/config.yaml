@@ -4,7 +4,7 @@ key: PicasaExpress
 author_link: https://votecharlie.com/
 author_name: Charlie Gorichanaz
 description: <__trans phrase='_CONFIG_DESCRIPTION'><br /><br /><__trans phrase='_SPECIAL_THANKS'>
-version: 1.1
+version: 1.2
 doc_link:
 
 l10n_class: PicasaExpress::L10N

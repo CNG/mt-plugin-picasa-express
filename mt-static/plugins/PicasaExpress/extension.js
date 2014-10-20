@@ -5,7 +5,7 @@ tinymce.create('tinymce.plugins.picasaexpress', {
         // Add a button that opens a window
         ed.addButton('picasaexpress', {
             text: 'Picasa Express',
-            icon: 'https://votecharlie.com/mt/mt-static/plugins/PicasaExpress/toolbar-picasa-express.gif',
+            icon: StaticURI + 'plugins/PicasaExpress/toolbar-picasa-express.png',
             onclick: function() {
                 var blogId = jQuery('#blog-id').val() || 0;
                 jQuery.fn.mtDialog.open(ScriptURI + '?__mode=pwa_albums&blog_id=' + blogId + '&dialog_view=1');
@@ -40,10 +40,16 @@ tinymce.PluginManager.add('picasaexpress', tinymce.plugins.picasaexpress);
 
 var config  = MT.Editor.TinyMCE.config;
 
+var plugin_mt_source_buttons1_temp = (config.plugin_mt_source_buttons1 || '').split(',');
+var plugin_mt_source_buttons1_tempZ = plugin_mt_source_buttons1_temp.pop();
+var plugin_mt_source_buttons1_tempY = plugin_mt_source_buttons1_temp.pop();
+plugin_mt_source_buttons1_temp.push("picasaexpress",plugin_mt_source_buttons1_tempY,plugin_mt_source_buttons1_tempZ);
+plugin_mt_source_buttons1_temp = plugin_mt_source_buttons1_temp.join(',');
+
 $.extend(config, {
     plugins: config.plugins + ',picasaexpress',
-    plugin_mt_wysiwyg_buttons1: 'picasaexpress,|,' + (config.plugin_mt_wysiwyg_buttons1 || ''),
-    plugin_mt_source_buttons1: 'picasaexpress,|,' + (config.plugin_mt_source_buttons1 || '')
+    plugin_mt_wysiwyg_buttons1: (config.plugin_mt_wysiwyg_buttons1 || '') + ',picasaexpress',
+    plugin_mt_source_buttons1: plugin_mt_source_buttons1_temp
 });
 
 var blogId = jQuery('#blog-id').val() || 0;
